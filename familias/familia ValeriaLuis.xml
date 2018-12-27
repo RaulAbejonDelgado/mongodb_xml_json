@@ -1,0 +1,22 @@
+<Family>
+  <_id>5c1ca8f1b3f4fc1f84b6df71</_id>
+  <familyId>2</familyId>
+  <nombre>familia ValeriaLuis</nombre>
+  <personas>
+    <personas>
+      <_id>5c18ab01717287d1e233db80</_id>
+      <selfId>4</selfId>
+      <familyId>2</familyId>
+      <nombre>valeria</nombre>
+      <links/>
+    </personas>
+    <personas>
+      <_id>5c18aac9717287d1e233db7d</_id>
+      <selfId>3</selfId>
+      <familyId>2</familyId>
+      <nombre>Luis</nombre>
+      <links/>
+    </personas>
+  </personas>
+  <links/>
+</Family>

@@ -1,0 +1,22 @@
+<Family>
+  <_id>5c1ca97cb3f4fc1f84b6df72</_id>
+  <familyId>3</familyId>
+  <nombre>familia AdrianAdriana</nombre>
+  <personas>
+    <personas>
+      <_id>5c18ab01717287d1e233db7e</_id>
+      <selfId>5</selfId>
+      <familyId>3</familyId>
+      <nombre>Adrian</nombre>
+      <links/>
+    </personas>
+    <personas>
+      <_id>5c18a59b717287d1e233db78</_id>
+      <selfId>6</selfId>
+      <familyId>3</familyId>
+      <nombre>Adiana</nombre>
+      <links/>
+    </personas>
+  </personas>
+  <links/>
+</Family>
