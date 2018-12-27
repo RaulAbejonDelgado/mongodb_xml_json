@@ -1,11 +1,10 @@
 package com.bilbomatica.xml;
 
-import com.bilbomatica.xml.dao.PersonDao;
-import com.bilbomatica.xml.pojo.Customer;
+import com.bilbomatica.xml.dao.FamilyDao;
+import com.bilbomatica.xml.pojo.Family;
 import com.bilbomatica.xml.pojo.Person;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,22 +16,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class xmlPersonReaderToMongo {
+public class xmlFamilyReaderToMongo {
 
 
 	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
 
 
 
-		final File carpeta = new File(System.getProperty("user.dir")+"\\personas\\");
+		final File carpeta = new File(System.getProperty("user.dir")+"\\familias\\");
 
-		PersonDao personDao = new PersonDao();
+		FamilyDao familyDao = new FamilyDao();
 
 		File[] archivos = new File[carpeta.listFiles().length];
 
-		ArrayList<Person> personas = new ArrayList<Person>();
 
-		personDao = PersonDao.getInstance();
+		familyDao = FamilyDao.getInstance();
 
 		archivos = listarFicherosPorCarpeta(carpeta );
 
@@ -46,7 +44,7 @@ public class xmlPersonReaderToMongo {
 
 				document.getDocumentElement().normalize();
 				System.out.println("Elemento raiz:" + document.getDocumentElement().getNodeName());
-				NodeList listaEmpleados = document.getElementsByTagName("Person");
+				NodeList listaEmpleados = document.getElementsByTagName("Family");
 				System.out.println(listaEmpleados);
 
 				for (int temp = 0; temp < listaEmpleados.getLength(); temp++) {
@@ -56,16 +54,31 @@ public class xmlPersonReaderToMongo {
 
 					if (nodo.getNodeType() == Node.ELEMENT_NODE) {
 						Element element = (Element) nodo;
-						System.out.println("_id: " + element.getElementsByTagName("_id").item(0).getTextContent());
-						System.out.println("Nombre: " + element.getElementsByTagName("nombre").item(0).getTextContent());
-						System.out.println("familyId: " + element.getElementsByTagName("familyId").item(0).getTextContent());
-						System.out.println("selfId: " + element.getElementsByTagName("selfId").item(0).getTextContent());
-						Person p = new Person();
-						p.set_id(element.getElementsByTagName("_id").item(0).getTextContent());
-						p.setNombre(element.getElementsByTagName("nombre").item(0).getTextContent());
-						p.setFamilyId(Integer.parseInt(element.getElementsByTagName("familyId").item(0).getTextContent()));
-						p.setPersonId(Integer.parseInt(element.getElementsByTagName("selfId").item(0).getTextContent()));
-						personDao.crear(p);
+//						System.out.println("_id: " + element.getElementsByTagName("_id").item(0).getTextContent());
+//						System.out.println("Nombre: " + element.getElementsByTagName("nombre").item(0).getTextContent());
+//						System.out.println("familyId: " + element.getElementsByTagName("familyId").item(0).getTextContent());
+//						System.out.println("personas: " + element.getElementsByTagName("personas").item(0).getTextContent());
+						Family f = new Family();
+						f.set_id(element.getElementsByTagName("_id").item(0).getTextContent());
+						f.setNombre(element.getElementsByTagName("nombre").item(0).getTextContent());
+						f.setFamilyId(Integer.parseInt(element.getElementsByTagName("familyId").item(0).getTextContent()));
+						//f.setPersonas(element.getElementsByTagName("personas").item(1));
+						//todo mirar ingresar personas
+						NodeList nodeList = document.getElementsByTagName("personas");
+						System.out.println("personas: " + element.getElementsByTagName("personas").item(0).getTextContent());
+						//System.out.println(document.getElementsByTagName("personas"));
+						ArrayList<Person> personasXml = new ArrayList<Person>();
+						for(int i = 0 ; i < nodeList.getLength(); i++ ){
+
+							System.out.println(element.getElementsByTagName("personas").item(1).getTextContent().replace("\n","").trim());
+//							System.out.println("personas: " +"-" +element.getElementsByTagName("personas").item(i).getNodeName()+ " - "+ element.getElementsByTagName("personas").item(i).getTextContent());
+//							System.out.println("personas: " +"-" +element.getElementsByTagName("personas").item(i).getChildNodes().item(i).getNextSibling());
+//							personasXml.add((
+//									new Person()
+//							))
+						}
+						//p.setPersonId(Integer.parseInt(element.getElementsByTagName("selfId").item(0).getTextContent()));
+						familyDao.crear(f);
 						//personas.add(p);
 
 
