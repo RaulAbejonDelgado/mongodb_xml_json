@@ -1,0 +1,19 @@
+<Coment>
+  <_id>5c1bb6c2e8ac6613f0c64b5b</_id>
+  <familia>
+    <_id/>
+    <familyId>1</familyId>
+    <nombre>familia AsierRaul</nombre>
+    <links/>
+  </familia>
+  <texto>bai ere bai</texto>
+  <persona>
+    <_id/>
+    <selfId>2</selfId>
+    <familyId>0</familyId>
+    <nombre/>
+    <links/>
+  </persona>
+  <comentarioId>1</comentarioId>
+  <links/>
+</Coment>

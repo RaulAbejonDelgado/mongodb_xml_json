@@ -1,6 +1,8 @@
 package com.bilbomatica.xml;
 
+import com.bilbomatica.xml.dao.ComentarioDao;
 import com.bilbomatica.xml.dao.FamilyDao;
+import com.bilbomatica.xml.pojo.Coment;
 import com.bilbomatica.xml.pojo.Family;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,24 +22,24 @@ public class ExtractorComentariosMongo {
 
     public static void main(String[] args) throws IOException {
 
-        ArrayList<Family> familias = new ArrayList<Family>();
+        ArrayList<Coment> comentarios = new ArrayList<Coment>();
 
-        FamilyDao familyDao = null;
+        ComentarioDao comentarioDao = null;
 
-        familyDao = FamilyDao.getInstance();
+        comentarioDao = ComentarioDao.getInstance();
 
-        familias = familyDao.listarTodos();
+        comentarios = comentarioDao.listarTodos();
 
-        File directorio = new File(System.getProperty("user.dir")+"\\comentarios\\");
+        File directorio = new File(System.getProperty("user.dir")+"//comentarios//");
 
         directorio.mkdir();
 
-        for(Family f : familias){
+        for(Coment c : comentarios){
             // 1. Write Object to XML String
-            String xmlPerson = write2XMLString(f);
-            String pathFilePerson = directorio + "\\" + f.getNombre()+".xml";
+            String xmlPerson = write2XMLString(c);
+            String pathFilePerson = directorio + "//comentario_" + c.getComentarioId()+".xml";
 
-            write2XMLFile(f, pathFilePerson);
+            write2XMLFile(c, pathFilePerson);
         }
 
 

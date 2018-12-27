@@ -1,0 +1,19 @@
+<Coment>
+  <_id>5c23f91d63807b180316280b</_id>
+  <familia>
+    <_id>5c18a850717287d1e233db7b</_id>
+    <familyId>1</familyId>
+    <nombre>familia AsierRaul</nombre>
+    <links/>
+  </familia>
+  <texto>Solo el texto</texto>
+  <persona>
+    <_id>5c23f91d63807b180316280b</_id>
+    <selfId>1</selfId>
+    <familyId>0</familyId>
+    <nombre/>
+    <links/>
+  </persona>
+  <comentarioId>2</comentarioId>
+  <links/>
+</Coment>

@@ -28,7 +28,7 @@ public class ExtractorPersonMongo {
 
         personas = personaDao.listar();
 
-        File directorio = new File(System.getProperty("user.dir")+"\\personas\\");
+        File directorio = new File(System.getProperty("user.dir")+"//personas//");
 
         directorio.mkdir();
 
@@ -36,7 +36,7 @@ public class ExtractorPersonMongo {
             // 1. Write Object to XML String
             String xmlPerson = write2XMLString(p);
             //String pathFilePerson = System.getProperty("user.dir") +"\\personas\\"+ p.getNombre()+".xml";
-            String pathFilePerson = directorio + "\\" + p.getNombre()+".xml";
+            String pathFilePerson = directorio + "//" + p.getNombre()+".xml";
 
             write2XMLFile(p, pathFilePerson);
         }

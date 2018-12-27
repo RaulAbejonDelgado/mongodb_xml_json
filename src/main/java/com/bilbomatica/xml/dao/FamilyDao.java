@@ -57,7 +57,10 @@ public class FamilyDao {
         DBCollection collection = getConnectionDbAndCollection(DB, COLLECTION);
 
         long numDocumentos = collection.getCount();
-        f.setFamilyId((int) (numDocumentos + 1));
+        if(f.getFamilyId() == 0){
+            f.setFamilyId((int) (numDocumentos + 1));
+        }
+
         f.toString();
         dBObjectFamily = toDBObjectToJavaCreate(f);
 
@@ -84,7 +87,7 @@ public class FamilyDao {
 
         dBObjectFamily.append("nombre", f.getNombre());
 
-        BasicDBObject dBObjectPersona = new BasicDBObject();
+
 
         //creo array del tamaño de las personas y si viene null creamos hueco para 1 elemento
         BasicDBObject[] arrayPersonas = new BasicDBObject[f.getPersonas() != null ? f.getPersonas().length  : 1];
@@ -92,7 +95,7 @@ public class FamilyDao {
         //Si en la creacion de la familia no se espcifica persona se crea uno a null
         //Para evitar errores en la lectura con estructura distinta
         if(f.getPersonas() == null ){
-
+            BasicDBObject dBObjectPersona = new BasicDBObject();
             dBObjectPersona.append("nombre", "");
             dBObjectPersona.append("selfId",0);
             dBObjectPersona.append("familyId",0);
@@ -102,6 +105,7 @@ public class FamilyDao {
         }else{
 
             for(int i = 0 ; i < f.getPersonas().length; i ++ ){
+                BasicDBObject dBObjectPersona = new BasicDBObject();
                 dBObjectPersona.append("nombre", f.getPersonas()[i].getNombre());
                 dBObjectPersona.append("selfId",f.getPersonas()[i].getselfId());
                 dBObjectPersona.append("familyId",f.getFamilyId());

@@ -5,6 +5,7 @@ import com.bilbomatica.xml.pojo.Family;
 import com.bilbomatica.xml.pojo.Person;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import org.mongojack.JacksonDBCollection;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -74,6 +75,37 @@ public class ComentarioDao {
         c.setPersona(persona);
 
         return c;
+    }
+
+    public boolean crear(Coment c) throws UnknownHostException {
+
+        boolean result = false;
+        DBCollection collection = null;
+        try {
+            collection = getConnectionDbAndCollection(DB, COLLECTION);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        JacksonDBCollection<Coment, String> coll = JacksonDBCollection.wrap(collection, Coment.class, String.class);
+
+        long numDoc = collection.getCount() + 1;
+        if(c.getComentarioId() == 0){
+            c.setComentarioId((int) numDoc);
+        }
+
+        org.mongojack.WriteResult<Coment, String> res = coll.insert(c);
+        Coment dObj = res.getSavedObject();
+        c.set_id(dObj.get_id());
+
+        System.out.println(dObj.toString());
+
+        if (dObj != null) {
+
+            result = true;
+        }
+
+
+        return result;
     }
 
 

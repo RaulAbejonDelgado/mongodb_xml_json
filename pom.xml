@@ -15,8 +15,8 @@
             </plugin>
         </plugins>
     </build>
-    <name>ReadWriteXmlFile</name>
-  <description>ReadWriteXmlFile</description>
+    <name>MongoXmlJson</name>
+  <description>MongoXmlJson</description>
   <dependencies>
   	<dependency>
 

@@ -18,17 +18,13 @@ import java.util.ArrayList;
 
 public class xmlFamilyReaderToMongo {
 
-
 	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
 
-
-
-		final File carpeta = new File(System.getProperty("user.dir")+"\\familias\\");
+		final File carpeta = new File(System.getProperty("user.dir")+"//familias//");
 
 		FamilyDao familyDao = new FamilyDao();
 
 		File[] archivos = new File[carpeta.listFiles().length];
-
 
 		familyDao = FamilyDao.getInstance();
 
@@ -47,40 +43,45 @@ public class xmlFamilyReaderToMongo {
 				NodeList listaEmpleados = document.getElementsByTagName("Family");
 				System.out.println(listaEmpleados);
 
+				//objeto principal
 				for (int temp = 0; temp < listaEmpleados.getLength(); temp++) {
 					Node nodo = listaEmpleados.item(temp);
 					System.out.println("Elemento:" + nodo.getNodeName());
-					System.out.println("Elemento:" + nodo.getNodeValue());
+					System.out.println("Contenido del elemento:" + nodo.getTextContent());
 
+					//Comprueba si el nodo es del tipo element, crt + click sobre Node para ver los tipos de nodos
 					if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+
 						Element element = (Element) nodo;
-//						System.out.println("_id: " + element.getElementsByTagName("_id").item(0).getTextContent());
-//						System.out.println("Nombre: " + element.getElementsByTagName("nombre").item(0).getTextContent());
-//						System.out.println("familyId: " + element.getElementsByTagName("familyId").item(0).getTextContent());
-//						System.out.println("personas: " + element.getElementsByTagName("personas").item(0).getTextContent());
 						Family f = new Family();
 						f.set_id(element.getElementsByTagName("_id").item(0).getTextContent());
 						f.setNombre(element.getElementsByTagName("nombre").item(0).getTextContent());
 						f.setFamilyId(Integer.parseInt(element.getElementsByTagName("familyId").item(0).getTextContent()));
-						//f.setPersonas(element.getElementsByTagName("personas").item(1));
-						//todo mirar ingresar personas
+
 						NodeList nodeList = document.getElementsByTagName("personas");
 						System.out.println("personas: " + element.getElementsByTagName("personas").item(0).getTextContent());
-						//System.out.println(document.getElementsByTagName("personas"));
-						ArrayList<Person> personasXml = new ArrayList<Person>();
-						for(int i = 0 ; i < nodeList.getLength(); i++ ){
 
-							System.out.println(element.getElementsByTagName("personas").item(1).getTextContent().replace("\n","").trim());
-//							System.out.println("personas: " +"-" +element.getElementsByTagName("personas").item(i).getNodeName()+ " - "+ element.getElementsByTagName("personas").item(i).getTextContent());
-//							System.out.println("personas: " +"-" +element.getElementsByTagName("personas").item(i).getChildNodes().item(i).getNextSibling());
-//							personasXml.add((
-//									new Person()
-//							))
+						Person[] arrayPersonas = new Person[nodeList.getLength() - 1];//personas[personas1,persona2,personaN]
+						//objeto anidado
+						for(int i = 1 ; i < nodeList.getLength(); i++ ){
+
+							Person p = new Person();
+							//personas -> 0[personas1 -> 1,persona2 ->2,personaN->N] Queremos atacar al primer elemento del array
+							//pero la primera pasada lo hace sobre el array global mostrando contenido del array
+							Node n = nodeList.item(i);
+							Element e = (Element) n;
+
+							p.setNombre(e.getElementsByTagName("nombre").item(0).getTextContent());
+							p.setPersonId(Integer.parseInt(e.getElementsByTagName("selfId").item(0).getTextContent()));
+							p.set_id((e.getElementsByTagName("_id").item(0).getTextContent()));
+							p.setFamilyId(Integer.parseInt(e.getElementsByTagName("familyId").item(0).getTextContent()));
+
+							arrayPersonas[i-1] = p;
+
 						}
-						//p.setPersonId(Integer.parseInt(element.getElementsByTagName("selfId").item(0).getTextContent()));
-						familyDao.crear(f);
-						//personas.add(p);
 
+						f.setPersonas(arrayPersonas);
+						familyDao.crear(f);
 
 					}
 				}
@@ -88,37 +89,7 @@ public class xmlFamilyReaderToMongo {
 			}catch (Exception e){
 				e.printStackTrace();
 			}
-
-
 		}
-
-
-		/*
-		 * 1. Convert String XML to Object
-		 */
-//		String xmlString = 	"<Customer>\r\n" +
-//							"  <name>Mary</name>\r\n" +
-//							"  <age>37</age>\r\n" +
-//							"  <address>\r\n" +
-//							"    <street>NANTERRE CT</street>\r\n" +
-//							"    <postcode>77471</postcode>\r\n" +
-//							"  </address>\r\n" +
-//							"</Customer>\r\n";
-//
-
-
-//		Customer cust = (Customer) convertXmlString2DataObject(xmlString, Customer.class);
-//
-//		System.out.println(cust);
-		// -> Customer[name=Mary, age=37, Address[street=NANTERRE CT, postcode=77471]]
-		
-		/*
-		 * 2. Convert XML File to Object
-		 */
-//		String pathFile = System.getProperty("user.dir") + "\\customerTest.xml";
-//		cust = (Customer) convertXmlFile2DataObject(pathFile, Customer.class);
-//
-//		System.out.println(cust);
 	}
 
 	private static File[] listarFicherosPorCarpeta(File carpeta) {
@@ -137,20 +108,4 @@ public class xmlFamilyReaderToMongo {
 		}
 		return archivos;
 	}
-
-//	public static Object convertXmlString2DataObject(String xmlString, Class<?> cls)
-//						throws JsonParseException, JsonMappingException, IOException{
-//
-//		XmlMapper xmlMapper = new XmlMapper();
-//		Object object = xmlMapper.readValue(xmlString, cls);
-//		return object;
-//	}
-//
-//	public static Object convertXmlFile2DataObject(String pathFile, Class<?> cls)
-//			throws JsonParseException, JsonMappingException, IOException{
-//
-//		XmlMapper xmlMapper = new XmlMapper();
-//		Object object = xmlMapper.readValue(new File(pathFile), cls);
-//		return object;
-//	}
 }
